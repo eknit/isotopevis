@@ -57,3 +57,41 @@ d13C <- expression(paste(delta^{13}, "C (‰)"))
 #' 
 #' Convenient text for plotting.
 d15N <- expression(paste(delta^{15}, "N (‰)"))
+
+#' plotmyxy
+#' 
+#'  Makes a standard isotope plot using the standard plotting charactes from the standard.species()
+#' function. Can take all the normal graphical parameters for further customization. It can also
+#' use big D13C or little d13C. The default (bigD=FALSE) is for little d13C. If bigD is selected, the 
+#' D13C column must be included in the original data.frame. 
+plotmyxy <- function(df, bigD = FALSE, dair=NULL, ...){
+  if (bigD==TRUE){
+    x <- df$D13C
+    xlab <- expression(paste(Delta^{13}, "C (‰)"))
+  }
+  else {
+    x <- df$normd13C
+    xlab <- expression(paste(delta^{13}, "C (‰)"))
+  }
+  
+  ylab <- expression(paste(delta^{15}, "N (‰)"))
+  y <- df$normd15N
+  
+  #Plotting parameters
+  par(mar=c(5,5,2,10))
+  plot(x, y, col=paste(df$col.list),
+       pch=as.numeric(as.character(df$pch.list)),
+       bg=paste(df$bg.list),
+       xlab=xlab, ylab=ylab,
+       ...)
+  
+  #Legend
+  legtab <-  df[!duplicated(df$English),]
+  legtab <- legtab[order(as.numeric(as.character(legtab$Order))),]
+  par(new=T)
+  par(mar=c(1,1,1,1))
+  plot(1:10, 1:10, axes=F, xlab="", ylab="", type="n")
+  par(xpd=T)
+  legend("right", paste(legtab$English), pch=as.numeric(as.character(legtab$pch.list)), 
+         col=paste(legtab$col.list), pt.bg=paste(legtab$bg.list), cex=0.9, pt.cex=1.3, bty="n") 
+}
