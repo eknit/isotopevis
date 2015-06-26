@@ -1,0 +1,12 @@
+Package: isotopevis
+Type: Package
+Title: What the package does (short line)
+Version: 0.0.0.9000
+Date: 2015-06-25
+Author: Who wrote it
+Maintainer: Who to complain to <yourfault@somewhere.net>
+Description: More about what it does (maybe more than one line)
+License: What license is it under?
+Imports: plyr
+LazyData: true
+Suggests: testthat
