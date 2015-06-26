@@ -47,3 +47,13 @@ add.alpha <- function(col, alpha=1){ # Converts colours to transparent
         function(x) 
           rgb(x[1], x[2], x[3], alpha=alpha))  
 }
+
+#' d13C
+#' 
+#' Convenient text for plotting.
+d13C <- expression(paste(delta^{13}, "C (‰)"))
+
+#' d15N
+#' 
+#' Convenient text for plotting.
+d15N <- expression(paste(delta^{15}, "N (‰)"))
