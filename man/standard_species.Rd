@@ -23,6 +23,6 @@ are then looked up in a standardized plotting table (plot_lookup_table) to
 find the plotting parameters.
 }
 \examples{
-out <- standard_species(df)
+x <- standard_species(test_df)
 }
 

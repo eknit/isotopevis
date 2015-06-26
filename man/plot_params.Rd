@@ -6,13 +6,18 @@
 \title{Prices of 50,000 round cut diamonds.}
 \format{A data frame with 53940 rows and 10 variables:
 \describe{
-  \item{price}{price, in US dollars}
-  \item{carat}{weight of the diamond, in carats}
-  ...
+  \item{English}{price, in US dollars}
+  \item{Latin}{weight of the diamond, in carats}
+  \item{Alt_name}{weight of the diamond, in carats}
+  \item{col.list}{weight of the diamond, in carats}
+  \item{bg.list}{weight of the diamond, in carats}
+  \item{pch.list}{weight of the diamond, in carats}
+  \item{Order}{weight of the diamond, in carats}
+  \item{Group}{weight of the diamond, in carats}
+  \item{Gp.col}{weight of the diamond, in carats}
+  \item{Gp.bg}{weight of the diamond, in carats}
+  \item{Type}{weight of the diamond, in carats}
 }}
-\source{
-\url{http://www.diamondse.info/}
-}
 \usage{
 plot_params
 }

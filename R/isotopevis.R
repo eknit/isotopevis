@@ -11,8 +11,9 @@
 #' @return A data.frame with the same number of rows as the original data frame,
 #'    with the standardized English species name and other standardized grouping 
 #'    information for each entry
-#'  @examples
-#'  out <- standard_species(df)
+#' @examples 
+#' x <- standard_species(test_df)
+#'
 
 standard_species <- function(df){
   names <- colnames(df)
@@ -28,4 +29,21 @@ standard_species <- function(df){
       matched_species, plot_params[, 1]), 1:ncol(plot_params)]
   standard <- cbind(df, matched_plot_params)
   data.frame(standard[, 2:ncol(standard)], row.names=1:nrow(standard))
+}
+
+#' Add.alpha
+#' 
+#' Converts colours to transparent.
+#' 
+#' @param col A color. 
+#' @return the transparent version of the colour
+#' @examples 
+#' add.alpha("blue")
+#'
+add.alpha <- function(col, alpha=1){ # Converts colours to transparent
+  if(missing(col))
+    stop("Please provide a vector of colours.")
+  apply(sapply(col, col2rgb)/255, 2, 
+        function(x) 
+          rgb(x[1], x[2], x[3], alpha=alpha))  
 }
