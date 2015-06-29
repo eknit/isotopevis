@@ -105,9 +105,6 @@ plotmyxy <- function(df, bigD = FALSE, dair=NULL, ...){
 
 make_endpoints <- function(s, params){
   #Cereals
-  N=100
-  mus = c(s$d13Csd)
-  mvrnorm()
   
   ecer <- subset(s, model_groups %in% c("Barley", "Cereal", "Millet"))
   ecer$md13C <- ecer$md13C + params[1,2]
