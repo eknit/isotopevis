@@ -11,4 +11,4 @@ Imports: plyr
 LazyData: true
 Suggests: testthat
 URL: https://github.com/eknit/isotopevis
-Depends: R  (>= 2.10), car, MASS, colorspace
+Depends: R  (>= 2.10), car, MASS, colorspace, plyr
