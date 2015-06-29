@@ -149,3 +149,50 @@ make_endpoints <- function(s, params){
   e
 }
 
+#' Calculates the hypothetical d13C and d15N ratios for the selected set of proportions (model)
+#' The proportions from the model are modified by the C/N ratio of the digestible C and N.
+#' From the endpoints calculated by the endpoints() function 10,000 normally distributed values
+#' are selected, for each of the endpoint groups. Each of these 10,000 ranomly selected values
+#' are averaged, weighted by the digestible C/N ratio-corrected proportions from the selected model
+#' The distribution of these 10,000 weighted mixtures is reported for both x and y.
+
+make_xyvals <- function(e, model){
+  props <- model/100
+  xconc <- (props*e$pcDC)/sum(props*e$pcDC)
+  yconc <- (props*e$pcDN)/sum(props*e$pcDN)
+  B <- 10000
+  sample.matrix <- matrix(nrow=B, ncol=length(xconc))
+  for (i in 1:length(xconc)){
+    sample.matrix[,i] <- rnorm(B, e$md13C[i], e$d13Csd[i])
+  }
+  prop.matrix <- sweep(sample.matrix, MARGIN=2, as.numeric(xconc), "*")
+  xvals <- rowSums(prop.matrix)
+  for (i in 1:length(xconc)){
+    sample.matrix[,i] <- rnorm(B, e$md15N[i], e$d15Nsd[i])
+  }
+  prop.matrix <- sweep(sample.matrix, MARGIN=2, as.numeric(xconc), "*")
+  yvals <- rowSums(prop.matrix)
+  x <- data.frame(xvals=xvals[1:B-1], yvals=yvals[1:B-1])
+  x
+}
+
+make_xyvals2 <- function(e, model){
+  props <- model/100
+  xconc <- (props*e$pcDC)/sum(props*e$pcDC)
+  yconc <- (props*e$pcDN)/sum(props*e$pcDN)
+  B <- 10000
+  sample.matrix <- matrix(nrow=B, ncol=length(xconc))
+  for (i in 1:length(xconc)){
+    sample.matrix[,i] <- rnorm(B, e$md13C[i], e$d13Csd[i])
+  }
+  prop.matrix <- sweep(sample.matrix, MARGIN=2, as.numeric(xconc), "*")
+  xvals <- rowSums(prop.matrix)
+  for (i in 1:length(xconc)){
+    sample.matrix[,i] <- rnorm(B, e$md15N[i], e$d15Nsd[i])
+  }
+  prop.matrix <- sweep(sample.matrix, MARGIN=2, as.numeric(xconc), "*")
+  yvals <- rowSums(prop.matrix)
+  x <- data.frame(xvals=xvals[1:B-1], yvals=yvals[1:B-1])
+  x
+}
+
