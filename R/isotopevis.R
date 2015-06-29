@@ -196,3 +196,33 @@ make_xyvals2 <- function(e, model){
   x
 }
 
+#' This function plots the resulting x and y values as a 2d histogram using the MASS package, and then
+#' overlays a barplot of the relative proportions for the selected model, as well as the human 
+#' d13C and d15N values for reference. The cex values are adjusted so that it appears best as a 3x4
+#' matrix with other plots of the same type (implemented below)
+
+#' @param colval A number between 1 and 360
+model_plot <- function(colval, x, this.model=this.model){
+  if (this.model$Works=="Yes"){
+    r <- rev(sequential_hcl(32, h=colval, c=c(80, 0), l=c(30, 100)))
+  }
+  else {
+    r <- rev(sequential_hcl(32, h=colval, c=c(0, 0), l=c(30, 100)))
+  }
+  xlims=c(-24, -10)
+  ylims=c(4, 18)
+  par(mar=c(4,5,2,0))
+  par(cex=1)
+  k <- kde2d(x$xvals, x$yvals, n=50, lims=c(xlims+c(-0.2,0.2), ylims+c(-0.2, 0.2)))
+  image(k, col=r, axes=F)
+  par(new=T)
+  plot(humans$normd13C, humans$normd15N, col="black", pch=8, xlim=xlims, ylim=ylims, xlab=d13C,
+       ylab=d15N, main=this.model$ModelName, cex.main=0.92)
+  par(new=T)
+  barplot(as.numeric(this.model[,2:9]), col=r[32], ylim=c(-300,100),
+          xlim=c(-12, 9), axes=F, cex.axis=0.8)
+  par(xpd=T)
+  text(((1:8)*1.2)-0.3, -5, c("Barley", "Cereal", "Pulses", "Cattle", "SGP", "Millet", "Wild", "Fish"), cex=0.8, srt=60, adj=1)
+  axis(2, at=seq(0,100, by=20), pos=0, cex.axis=0.8)
+}
+
