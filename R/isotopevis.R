@@ -226,3 +226,16 @@ model_plot <- function(colval, x, this.model=this.model){
   axis(2, at=seq(0,100, by=20), pos=0, cex.axis=0.8)
 }
 
+#' This function combines all of the above plots - note that you can select which parameter table
+#' you'd like to use here, for easy comparison
+full_plot <- function(modelno, params, s){
+  this.model <- models[modelno,]
+  e <- make_endpoints(s, params)
+  x <- make_xyvals(e, this.model[2:9])
+  if (this.model$Works=="Yes"){
+    colval <- 360/(nrow(models[models$Works=="Yes",])) + (360/(nrow(models[models$Works=="Yes",]))*modelno)
+  }
+  else {colval <- 260}
+  model_plot(colval, x, this.model)
+}
+
