@@ -95,3 +95,57 @@ plotmyxy <- function(df, bigD = FALSE, dair=NULL, ...){
   legend("right", paste(legtab$English), pch=as.numeric(as.character(legtab$pch.list)), 
          col=paste(legtab$col.list), pt.bg=paste(legtab$bg.list), cex=0.9, pt.cex=1.3, bty="n") 
 }
+
+#' Make endpoints
+#' 
+#' Takes isotope values of the selected groups and divides them by type (Cereal, Pulse or Animal)
+#' and addes the appropriate discrimination factor from the params table, and pools the two standard
+#' deviations. It also assigns the appropriate digestable C and N proportions to each type of mixing 
+#' group based on the params table.
+
+make_endpoints <- function(s, params){
+  #Cereals
+  N=100
+  mus = c(s$d13Csd)
+  mvrnorm()
+  
+  ecer <- subset(s, model_groups %in% c("Barley", "Cereal", "Millet"))
+  ecer$md13C <- ecer$md13C + params[1,2]
+  ecer$md15N <- ecer$md15N + params[1,4]
+  ecer$d13Csd <- sqrt(ecer$d13Csd^2 + params[1,3]^2)
+  ecer$d15Nsd <- sqrt(ecer$d15Nsd^2 + params[1,5]^2)
+  other_params <- data.frame(matrix(rep(params[1, 6:9], 3),  ncol=4, byrow=T))
+  names(other_params)<- names(params[6:9])
+  ecer <- cbind(ecer, other_params)
+  
+  #Pulses
+  #Cereals
+  epul <- subset(s, model_groups %in% "Pulse")
+  epul$md13C <- epul$md13C + params[2,2]
+  epul$md15N <- epul$md15N + params[2,4]
+  epul$d13Csd <- sqrt(epul$d13Csd^2 + params[2,3]^2)
+  epul$d15Nsd <- sqrt(epul$d15Nsd^2 + params[2,5]^2)
+  other_params <- data.frame(matrix(rep(params[2, 6:9], 1), ncol=4, byrow=T))
+  names(other_params)<- names(params[6:9])
+  epul <- cbind(epul, other_params)
+  
+  #Pulses
+  #Cereals
+  ean <- subset(s, model_groups %in% c("Cattle", "Fish", "Sheep/Goat/Pig", "Wild Canopy"))
+  ean$md13C <- ean$md13C + params[3,2]
+  ean$md15N <- ean$md15N + params[3,4]
+  ean$d13Csd <- sqrt(ean$d13Csd^2 + params[3,3]^2)
+  ean$d15Nsd <- sqrt(ean$d15Nsd^2 + params[3,5]^2)
+  other_params <- data.frame(matrix(rep(params[3, 6:9], 1), ncol=4, byrow=T))
+  names(other_params)<- names(params[6:9])
+  ean <- cbind(ean, other_params)
+  
+  e <- rbind(ecer, epul, ean)
+  e$order <- c(1,2,6,3,4,8,5,7)
+  e <- e[order(e$order),]
+  
+  e$pcDC <- unlist(e$DigestC)/(unlist(e$DigestC)+unlist(e$DigestN))
+  e$pcDN <- unlist(e$DigestN)/(unlist(e$DigestC)+unlist(e$DigestN))
+  e
+}
+
