@@ -96,12 +96,25 @@ plotmyxy <- function(df, bigD = FALSE, dair=NULL, ...){
          col=paste(legtab$col.list), pt.bg=paste(legtab$bg.list), cex=0.9, pt.cex=1.3, bty="n") 
 }
 
+#' Get model names
+#' 
+#' Extracts the category names from the list of those provided in the data frame df
+
+get_model_names <- function(df){
+  types <- as.character(df$Type[!duplicated(df$model_groups)])
+  group_names <- df$model_groups[!duplicated(df$model_groups)]
+  model_names <- cbind(types, group_names)
+  model_names <- model_names[complete.cases(model_names),]
+  model_names
+}
+
 #' Make endpoints
 #' 
 #' Takes isotope values of the selected groups and divides them by type (Cereal, Pulse or Animal)
 #' and addes the appropriate discrimination factor from the params table, and pools the two standard
 #' deviations. It also assigns the appropriate digestable C and N proportions to each type of mixing 
 #' group based on the params table.
+
 
 make_endpoints <- function(s, params){
   #Cereals
