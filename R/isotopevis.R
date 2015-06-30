@@ -108,6 +108,16 @@ get_model_names <- function(df){
   model_names
 }
 
+#'  Make summary table
+
+make_summary_table <- function(df){
+  s <- ddply(df, .(model_groups), summarize, md13C=mean(normd13C), 
+             d13Csd=sd(normd13C), 
+             md15N=mean(normd15N),
+             d15Nsd=sd(normd15N))
+  s  
+}
+
 #' Make endpoints
 #' 
 #' Takes isotope values of the selected groups and divides them by type (Cereal, Pulse or Animal)
