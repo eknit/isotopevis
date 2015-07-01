@@ -156,7 +156,6 @@ make_endpoints <- function(df, params){
   #Pulses
   #Cereals
   ean <- s[s$Type == "Animal",]
-  ean <- subset(s, model_groups %in% c("Cattle", "Fish", "Sheep/Goat/Pig", "Wild Canopy"))
   ean$md13C <- ean$md13C + params[3,2]
   ean$md15N <- ean$md15N + params[3,4]
   ean$d13Csd <- sqrt(ean$d13Csd^2 + params[3,3]^2)
