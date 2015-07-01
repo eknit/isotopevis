@@ -132,11 +132,8 @@ make_summary_table <- function(df){
 make_endpoints <- function(df, params){
   
   s <- make_summary_table(df)
-  model_names <- get_model_names(df)
   #Cereals
-  model_names[match(
-    species_names, species_lookup[, 2]), 1]
-  ecer <- subset(s, model_groups %in% c("Barley", "Cereal", "Millet"))
+  ecer <- s[s$Type=="Plant" & s$Group != "Pulse",]
   ecer$md13C <- ecer$md13C + params[1,2]
   ecer$md15N <- ecer$md15N + params[1,4]
   ecer$d13Csd <- sqrt(ecer$d13Csd^2 + params[1,3]^2)
@@ -147,7 +144,7 @@ make_endpoints <- function(df, params){
   
   #Pulses
   #Cereals
-  epul <- subset(s, model_groups %in% "Pulse")
+  epul <- s[s$Group == "Pulse",]
   epul$md13C <- epul$md13C + params[2,2]
   epul$md15N <- epul$md15N + params[2,4]
   epul$d13Csd <- sqrt(epul$d13Csd^2 + params[2,3]^2)
@@ -158,6 +155,7 @@ make_endpoints <- function(df, params){
   
   #Pulses
   #Cereals
+  ean <- s[s$Type == "Animal",]
   ean <- subset(s, model_groups %in% c("Cattle", "Fish", "Sheep/Goat/Pig", "Wild Canopy"))
   ean$md13C <- ean$md13C + params[3,2]
   ean$md15N <- ean$md15N + params[3,4]
