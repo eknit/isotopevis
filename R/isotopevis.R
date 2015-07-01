@@ -114,8 +114,11 @@ make_summary_table <- function(df){
   s <- ddply(df, .(model_groups), summarize, md13C=mean(normd13C), 
              d13Csd=sd(normd13C), 
              md15N=mean(normd15N),
-             d15Nsd=sd(normd15N))
-  s  
+             d15Nsd=sd(normd15N),
+            Type=unique(Type)[1],
+            Group=unique(Group)[1],
+            model_groups=unique(model_groups)[1])
+  s 
 }
 
 #' Make endpoints
@@ -126,9 +129,13 @@ make_summary_table <- function(df){
 #' group based on the params table.
 
 
-make_endpoints <- function(s, params){
-  #Cereals
+make_endpoints <- function(df, params){
   
+  s <- make_summary_table(df)
+  model_names <- get_model_names(df)
+  #Cereals
+  model_names[match(
+    species_names, species_lookup[, 2]), 1]
   ecer <- subset(s, model_groups %in% c("Barley", "Cereal", "Millet"))
   ecer$md13C <- ecer$md13C + params[1,2]
   ecer$md15N <- ecer$md15N + params[1,4]

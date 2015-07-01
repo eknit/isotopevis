@@ -4,7 +4,7 @@
 \alias{make_endpoints}
 \title{Make endpoints}
 \usage{
-make_endpoints(s, params)
+make_endpoints(df, params)
 }
 \description{
 Takes isotope values of the selected groups and divides them by type (Cereal, Pulse or Animal)
