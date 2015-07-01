@@ -255,7 +255,7 @@ model_plot <- function(colval, x, this.model=this.model){
 full_plot <- function(modelno, params, s){
   this.model <- models[modelno,]
   e <- make_endpoints(s, params)
-  x <- make_xyvals(e, this.model[2:9])
+  x <- make_xyvals(e, this.model[2:(ncol(models)-2)])
   if (this.model$Works=="Yes"){
     colval <- 360/(nrow(models[models$Works=="Yes",])) + (360/(nrow(models[models$Works=="Yes",]))*modelno)
   }
