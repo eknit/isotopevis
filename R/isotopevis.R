@@ -243,10 +243,11 @@ model_plot <- function(colval, x, this.model=this.model){
   plot(humans$normd13C, humans$normd15N, col="black", pch=8, xlim=xlims, ylim=ylims, xlab=d13C,
        ylab=d15N, main=this.model$ModelName, cex.main=0.92)
   par(new=T)
-  barplot(as.numeric(this.model[,2:9]), col=r[32], ylim=c(-300,100),
+  barplot(as.numeric(this.model[,2:(ncol(this.model)-2)]), col=r[32], ylim=c(-300,100),
           xlim=c(-12, 9), axes=F, cex.axis=0.8)
   par(xpd=T)
-  text(((1:8)*1.2)-0.3, -5, c("Barley", "Cereal", "Pulses", "Cattle", "SGP", "Millet", "Wild", "Fish"), cex=0.8, srt=60, adj=1)
+  model_names <- 
+    text(((1:length(model_names))*1.2)-0.3, -5, model_names, cex=0.8, srt=60, adj=1)
   axis(2, at=seq(0,100, by=20), pos=0, cex.axis=0.8)
 }
 
