@@ -44,3 +44,41 @@
 #'   \item{normd13C}{weight of the diamond, in carats}
 #' }
 "test_df"
+
+#' Prices of 50,000 round cut diamonds.
+#'
+#' A dataset containing the prices and other attributes of almost 54,000
+#' diamonds.
+#'
+#' @format A data frame with 53940 rows and 10 variables:
+#' \describe{
+#'   \item{Type}{price, in US dollars}
+#'   \item{D13C}{weight of the diamond, in carats}
+#'   \item{D13Csd}{weight of the diamond, in carats}
+#'   \item{D15N}{weight of the diamond, in carats}
+#'   \item{D15Nsd}{weight of the diamond, in carats}
+#'   \item{pcC}{weight of the diamond, in carats}
+#'   \item{pcN}{weight of the diamond, in carats}
+#'   \item{DigestC}{weight of the diamond, in carats}
+#'   \item{DigestN}{weight of the diamond, in carats}
+#' }
+"params2"
+
+#' Prices of 50,000 round cut diamonds.
+#'
+#' A dataset containing the prices and other attributes of almost 54,000
+#' diamonds.
+#'
+#' @format A data frame with 53940 rows and 10 variables:
+#' \describe{
+#'   \item{Type}{price, in US dollars}
+#'   \item{D13C}{weight of the diamond, in carats}
+#'   \item{D13Csd}{weight of the diamond, in carats}
+#'   \item{D15N}{weight of the diamond, in carats}
+#'   \item{D15Nsd}{weight of the diamond, in carats}
+#'   \item{pcC}{weight of the diamond, in carats}
+#'   \item{pcN}{weight of the diamond, in carats}
+#'   \item{DigestC}{weight of the diamond, in carats}
+#'   \item{DigestN}{weight of the diamond, in carats}
+#' }
+"params3"
