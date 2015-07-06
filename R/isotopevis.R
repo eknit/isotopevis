@@ -138,7 +138,7 @@ make_endpoints <- function(df, params){
   ecer$md15N <- ecer$md15N + params[1,4]
   ecer$d13Csd <- sqrt(ecer$d13Csd^2 + params[1,3]^2)
   ecer$d15Nsd <- sqrt(ecer$d15Nsd^2 + params[1,5]^2)
-  other_params <- data.frame(matrix(rep(params[1, 6:9], 3),  ncol=4, byrow=T))
+  other_params <- data.frame(matrix(rep(params[1, 6:9], nrow(ecer)),  ncol=4, byrow=T))
   names(other_params)<- names(params[6:9])
   ecer <- cbind(ecer, other_params)
   
@@ -149,7 +149,7 @@ make_endpoints <- function(df, params){
   epul$md15N <- epul$md15N + params[2,4]
   epul$d13Csd <- sqrt(epul$d13Csd^2 + params[2,3]^2)
   epul$d15Nsd <- sqrt(epul$d15Nsd^2 + params[2,5]^2)
-  other_params <- data.frame(matrix(rep(params[2, 6:9], 1), ncol=4, byrow=T))
+  other_params <- data.frame(matrix(rep(params[2, 6:9], nrow(epul)), ncol=4, byrow=T))
   names(other_params)<- names(params[6:9])
   epul <- cbind(epul, other_params)
   
@@ -160,18 +160,18 @@ make_endpoints <- function(df, params){
   ean$md15N <- ean$md15N + params[3,4]
   ean$d13Csd <- sqrt(ean$d13Csd^2 + params[3,3]^2)
   ean$d15Nsd <- sqrt(ean$d15Nsd^2 + params[3,5]^2)
-  other_params <- data.frame(matrix(rep(params[3, 6:9], 1), ncol=4, byrow=T))
+  other_params <- data.frame(matrix(rep(params[3, 6:9], nrow(ean)), ncol=4, byrow=T))
   names(other_params)<- names(params[6:9])
   ean <- cbind(ean, other_params)
   
   e <- rbind(ecer, epul, ean)
-  e$order <- c(1,2,6,3,4,8,5,7)
-  e <- e[order(e$order),]
+  
   
   e$pcDC <- unlist(e$DigestC)/(unlist(e$DigestC)+unlist(e$DigestN))
   e$pcDN <- unlist(e$DigestN)/(unlist(e$DigestC)+unlist(e$DigestN))
   e
 }
+
 
 #' Calculates the hypothetical d13C and d15N ratios for the selected set of proportions (model)
 #' The proportions from the model are modified by the C/N ratio of the digestible C and N.
