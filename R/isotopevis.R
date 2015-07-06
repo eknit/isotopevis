@@ -28,7 +28,7 @@ standard_species <- function(df){
   matched_plot_params <- plot_params[match(
       matched_species, plot_params[, 1]), 1:ncol(plot_params)]
   standard <- cbind(df, matched_plot_params)
-  data.frame(standard[, 2:ncol(standard)], row.names=1:nrow(standard))
+  data.frame(standard[, 1:ncol(standard)], row.names=1:nrow(standard))
 }
 
 #' Add.alpha
