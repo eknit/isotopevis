@@ -2,20 +2,11 @@
 % Please edit documentation in R/isotopevis.R
 \name{model_plot}
 \alias{model_plot}
-\title{This function plots the resulting x and y values as a 2d histogram using the MASS package, and then
-overlays a barplot of the relative proportions for the selected model, as well as the human
-d13C and d15N values for reference. The cex values are adjusted so that it appears best as a 3x4
-matrix with other plots of the same type (implemented below)}
+\title{model_plot function - version 2 using kde instead of histogram, based on multivariate distribution}
 \usage{
-model_plot(colval, x, this.model = this.model)
-}
-\arguments{
-\item{colval}{A number between 1 and 360}
+model_plot(s, model.no, ...)
 }
 \description{
-This function plots the resulting x and y values as a 2d histogram using the MASS package, and then
-overlays a barplot of the relative proportions for the selected model, as well as the human
-d13C and d15N values for reference. The cex values are adjusted so that it appears best as a 3x4
-matrix with other plots of the same type (implemented below)
+model_plot function - version 2 using kde instead of histogram, based on multivariate distribution
 }
 

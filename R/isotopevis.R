@@ -178,6 +178,36 @@ generate_mvnorm <- function(batch, N){
    result2
 }
 
+#' model_plot function - version 2 using kde instead of histogram, based on multivariate distribution
+#' 
+model_plot <- function(s, model.no, ...){
+  this.model <- models[model.no, ]
+  if (this.model$Works=="No"){
+    colval <- "grey20"
+  }
+  else {
+    colval <- model.no
+  }
+  print(colval)
+  xlims=c(min(s$md13C)+1, max(s$md13C)+(abs(min(s$md13C)-max(s$md13C))))
+  ylims=c(min(s$md15N)+1, max(s$md15N)+(abs(min(s$md15N)-max(s$md15N))*1.8))
+  par(cex=1)
+  endpoints <- make_xyvals2(s, model=this.model[2:(ncol(this.model)-2)])
+  H <- Hpi(x=endpoints)
+  fhat <- kde(x=endpoints, H=H)
+  plot(fhat, display="filled.contour2", cont=c(95, 67), col=c('white', 		make_tint(colval, 0.5), colval), xlim=xlims, ylim=ylims, axes=F, xlab="", ylab="")
+  points(humans$normd13C, humans$normd15N, pch=8)
+  par(new=T)
+  barplot(as.numeric(this.model[,2:(ncol(this.model)-2)]), col=colval, ylim=c(-300,100),
+          xlim=c((ncol(this.model)-2)*-1.3, (ncol(this.model)-2)), axes=F, cex.axis=0.6)
+  par(xpd=T)
+  model_names <- get_model_names(df)[,2]
+  text(((1:length(model_names))*1.2)-0.3, -5, model_names, cex=0.6, srt=60, adj=1)
+  axis(2, at=seq(0,100, by=20), pos=0, cex.axis=0.6)
+  par(new=T)
+  plot(1:10, 1:10, xlim=xlims, ylim=ylims, axes=F, xlab="", ylab="")
+}
+
 #' make_xyvals2
 #' 
 make_xyvals2 <- function(s, model){
@@ -309,36 +339,7 @@ make_xyvals <- function(e, model){
 
 
 
-#' This function plots the resulting x and y values as a 2d histogram using the MASS package, and then
-#' overlays a barplot of the relative proportions for the selected model, as well as the human 
-#' d13C and d15N values for reference. The cex values are adjusted so that it appears best as a 3x4
-#' matrix with other plots of the same type (implemented below)
 
-#' @param colval A number between 1 and 360
-model_plot <- function(colval, x, this.model=this.model){
-  if (this.model$Works=="Yes"){
-    r <- rev(sequential_hcl(32, h=colval, c=c(80, 0), l=c(30, 100)))
-  }
-  else {
-    r <- rev(sequential_hcl(32, h=colval, c=c(0, 0), l=c(30, 100)))
-  }
-  xlims=c(-24, -10)
-  ylims=c(4, 18)
-  par(mar=c(4,5,2,0))
-  par(cex=1)
-  k <- kde2d(x$xvals, x$yvals, n=50, lims=c(xlims+c(-0.2,0.2), ylims+c(-0.2, 0.2)))
-  image(k, col=r, axes=F)
-  par(new=T)
-  plot(humans$normd13C, humans$normd15N, col="black", pch=8, xlim=xlims, ylim=ylims, xlab=d13C,
-       ylab=d15N, main=this.model$ModelName, cex.main=0.92)
-  par(new=T)
-  barplot(as.numeric(this.model[,2:(ncol(this.model)-2)]), col=r[32], ylim=c(-300,100),
-          xlim=c(-12, 9), axes=F, cex.axis=0.8)
-  par(xpd=T)
-  model_names <- get_model_names(df)
-    text(((1:length(model_names))*1.2)-0.3, -5, model_names, cex=0.8, srt=60, adj=1)
-  axis(2, at=seq(0,100, by=20), pos=0, cex.axis=0.8)
-}
 
 #' This function combines all of the above plots - note that you can select which parameter table
 #' you'd like to use here, for easy comparison
