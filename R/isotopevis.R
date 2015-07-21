@@ -48,6 +48,16 @@ add.alpha <- function(col, alpha=1){ # Converts colours to transparent
           rgb(x[1], x[2], x[3], alpha=alpha))  
 }
 
+#' make_tint
+#' Automatically makes tinted shade for plotting. Returns RGB colour.
+#' 
+make_tint <- function(col, tint_factor){
+  apply(x <- sapply(col, col2rgb)/255, 2, 
+        function(x) 
+          rgb(x[1]+(1-x[1])*tint_factor,
+              x[2]+(1-x[2])*tint_factor,
+              x[3]+(1-x[3])*tint_factor))
+} 
 #' d13C
 #' 
 #' Convenient text for plotting.
