@@ -167,6 +167,58 @@ generate_mvnorm <- function(batch, N){
    result2 <- mvrnorm(N, c(parCmu, parNmu), Sigma2)
    result2
 }
+
+#' make_xyvals2
+#' 
+make_xyvals2 <- function(s, model){
+  props <- model/100
+  
+  make_conc <- function(x){
+    if (x$Type=="Plant" & x$Group != "Pulse"){
+      other_params <- data.frame(params[1, 6:9])
+    }
+    else if (x$Group == "Pulse"){
+      other_params <- data.frame(params[2, 6:9])
+    }
+    
+    else if (x$Type == "Animal"){
+      other_params <- params[3, 6:9]
+    }
+    other_params
+  }
+  
+  other_params <- matrix(ncol=4, nrow=nrow(s))
+  for (i in 1:nrow(s)){
+    other_params[i,] <-  unlist(make_conc(s[i,]))
+  }
+  other_params <- data.frame(other_params)
+  names(other_params)<- names(params[6:9])
+  s <- cbind(s, other_params)
+  s$pcDC <- unlist(s$DigestC)/(unlist(s$DigestC)+unlist(s$DigestN))
+  s$pcDN <- unlist(s$DigestN)/(unlist(s$DigestC)+unlist(s$DigestN))
+  
+  xconc <- (props*s$pcDC)/sum(props*s$pcDC)
+  yconc <- (props*s$pcDN)/sum(props*s$pcDN)
+  
+  B <- 10000
+  sample.matrix <- matrix(nrow=B, ncol=length(xconc))
+  for (i in 1:length(xconc)){
+    batch <- df[df$model_group==unique(df$model_group)[i],]
+    sample.matrix[,i] <- bi_endpoints_sim(batch)[,1]
+  }
+  prop.matrix <- sweep(sample.matrix, MARGIN=2, as.numeric(xconc), "*")
+  xvals <- rowSums(prop.matrix)
+  for (i in 1:length(yconc)){
+    batch <- df[df$model_group==unique(df$model_group)[i],]
+    sample.matrix[,i] <- bi_endpoints_sim(batch)[,2]
+  }
+  prop.matrix <- sweep(sample.matrix, MARGIN=2, as.numeric(xconc), "*")
+  yvals <- rowSums(prop.matrix)
+  x <- data.frame(xvals=xvals, yvals=yvals)
+  x
+}
+
+
 #' Make endpoints
 #' 
 #' Takes isotope values of the selected groups and divides them by type (Cereal, Pulse or Animal)
@@ -245,25 +297,7 @@ make_xyvals <- function(e, model){
   x
 }
 
-make_xyvals2 <- function(e, model){
-  props <- model/100
-  xconc <- (props*e$pcDC)/sum(props*e$pcDC)
-  yconc <- (props*e$pcDN)/sum(props*e$pcDN)
-  B <- 10000
-  sample.matrix <- matrix(nrow=B, ncol=length(xconc))
-  for (i in 1:length(xconc)){
-    sample.matrix[,i] <- rnorm(B, e$md13C[i], e$d13Csd[i])
-  }
-  prop.matrix <- sweep(sample.matrix, MARGIN=2, as.numeric(xconc), "*")
-  xvals <- rowSums(prop.matrix)
-  for (i in 1:length(xconc)){
-    sample.matrix[,i] <- rnorm(B, e$md15N[i], e$d15Nsd[i])
-  }
-  prop.matrix <- sweep(sample.matrix, MARGIN=2, as.numeric(xconc), "*")
-  yvals <- rowSums(prop.matrix)
-  x <- data.frame(xvals=xvals[1:B-1], yvals=yvals[1:B-1])
-  x
-}
+
 
 #' This function plots the resulting x and y values as a 2d histogram using the MASS package, and then
 #' overlays a barplot of the relative proportions for the selected model, as well as the human 
