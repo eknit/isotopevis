@@ -2,13 +2,11 @@
 % Please edit documentation in R/isotopevis.R
 \name{full_plot}
 \alias{full_plot}
-\title{This function combines all of the above plots - note that you can select which parameter table
-you'd like to use here, for easy comparison}
+\title{full_plot makes grid of all plots}
 \usage{
-full_plot(modelno, params, s)
+full_plot(models, s, ncol = 3, nrow = 4)
 }
 \description{
-This function combines all of the above plots - note that you can select which parameter table
-you'd like to use here, for easy comparison
+full_plot makes grid of all plots
 }
 

@@ -208,6 +208,36 @@ model_plot <- function(s, model.no, ...){
   plot(1:10, 1:10, xlim=xlims, ylim=ylims, axes=F, xlab="", ylab="")
 }
 
+#' full_plot makes grid of all plots
+full_plot <- function(models, s, ncol=3, nrow=4){
+  palette(c("#FFFF54","#C8E64C", "#8CD446", "#4DC742", "#45D2B0", "#46ACD3", "#438CCB", "#4262C7", "#5240C3", "#8C3FC0", "#D145C1", "#E64C8D", "#FF5454", "#FF8054", "#FFA054", "#FFB554"))
+  N <- nrow(models)
+  par(mfrow=c(nrow,ncol))
+  side <- seq(1, N, by=ncol)
+  bottom <- (N-ncol+1):N
+  par(oma=c(5,5,1,1))
+  par(mar=c(0,0,0,0))
+  for (i in 1:N){
+    model_plot2(s, i)
+    if (i %in% side){
+      axis(2)
+      mtext(d15N, 2, 2, cex=0.9)
+    }
+    if (!i %in% side){
+      axis(2, tck=0.02, labels=NA, cex=0.7)
+    }
+    if (i %in% bottom){
+      axis(1)
+      mtext(d13C, 1, 2, cex=0.9)
+      
+    }
+    if (!i %in% bottom){
+      axis(1, tck=0.02, labels=NA, cex=0.8)
+    }
+    box()
+  }
+}
+
 #' make_xyvals2
 #' 
 make_xyvals2 <- function(s, model){
@@ -341,16 +371,5 @@ make_xyvals <- function(e, model){
 
 
 
-#' This function combines all of the above plots - note that you can select which parameter table
-#' you'd like to use here, for easy comparison
-full_plot <- function(modelno, params, s){
-  this.model <- models[modelno,]
-  e <- make_endpoints(s, params)
-  x <- make_xyvals(e, this.model[2:(ncol(models)-2)])
-  if (this.model$Works=="Yes"){
-    colval <- 360/(nrow(models[models$Works=="Yes",])) + (360/(nrow(models[models$Works=="Yes",]))*modelno)
-  }
-  else {colval <- 260}
-  model_plot(colval, x, this.model)
-}
+
 
