@@ -121,6 +121,21 @@ make_summary_table <- function(df){
   s 
 }
 
+#' generate_mvnorm
+#' 
+#' Generates a bivariate normal distribution of the dietary group supplied 
+#' (batch) using the mvnorm function
+#' 
+generate_mvnorm <- function(batch, N){
+  Cvar <- var(batch$normd13C)
+  Nvar <- var(batch$normd15N)
+  Cmu <- mean(batch$normd13C)
+  Nmu <- mean(batch$normd15N)
+  batch_cov <- cov(batch$normd13C, batch$normd15N)
+  Sigma <- matrix(c(Cvar, batch_cov, batch_cov, Nvar), 2,2)
+  result <- mvrnorm(N, c(Cmu, Nmu), Sigma)
+  result
+}
 #' Make endpoints
 #' 
 #' Takes isotope values of the selected groups and divides them by type (Cereal, Pulse or Animal)
@@ -165,7 +180,6 @@ make_endpoints <- function(df, params){
   ean <- cbind(ean, other_params)
   
   e <- rbind(ecer, epul, ean)
-  
   
   e$pcDC <- unlist(e$DigestC)/(unlist(e$DigestC)+unlist(e$DigestN))
   e$pcDN <- unlist(e$DigestN)/(unlist(e$DigestC)+unlist(e$DigestN))
@@ -246,7 +260,7 @@ model_plot <- function(colval, x, this.model=this.model){
   barplot(as.numeric(this.model[,2:(ncol(this.model)-2)]), col=r[32], ylim=c(-300,100),
           xlim=c(-12, 9), axes=F, cex.axis=0.8)
   par(xpd=T)
-  model_names <- 
+  model_names <- get_model_names(df)
     text(((1:length(model_names))*1.2)-0.3, -5, model_names, cex=0.8, srt=60, adj=1)
   axis(2, at=seq(0,100, by=20), pos=0, cex.axis=0.8)
 }
