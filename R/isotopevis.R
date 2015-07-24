@@ -16,17 +16,18 @@
 #'
 
 standard_species <- function(df){
+  df <- arch_fauna
   names <- colnames(df)
-  species_names <-  df[,grepl("species", names) |
-                         grepl("Species", names) |
-                         grepl("taxon", names) |
-                         grepl("Taxon", names)]
+  species_names <-  df[,grepl("species", names, ignore.case=T) |
+                         grepl("Species", names, ignore.case=T)]
+  if (ncol(species_names)>1) warning("Multiple species match columns found, using only first")
+  species_names <- species_names[,1]
   species_lookup <- species
   plot_params <- plot_params
   matched_species <- species_lookup[match(
-      species_names, species_lookup[, 2]), 1]
+    species_names, species_lookup[, 2]), 1]
   matched_plot_params <- plot_params[match(
-      matched_species, plot_params[, 1]), 1:ncol(plot_params)]
+    matched_species, plot_params[, 1]), 1:ncol(plot_params)]
   standard <- cbind(df, matched_plot_params)
   data.frame(standard[, 1:ncol(standard)], row.names=1:nrow(standard))
 }
