@@ -19,8 +19,13 @@ standard_species <- function(df){
   names <- colnames(df)
   species_names <-  df[,grepl("species", names, ignore.case=T) |
                          grepl("Species", names, ignore.case=T)]
-  if (ncol(species_names)>1) warning("Multiple species match columns found, using only first")
-  species_names <- species_names[,1]
+  if (!is.null(dim(species_names))) {
+    warning("Multiple species match columns found, using only first")
+    species_names <- species_names[,1]
+  }
+  else {
+    species_names <- species_names
+  }
   species_lookup <- species
   plot_params <- plot_params
   matched_species <- species_lookup[match(
