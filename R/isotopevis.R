@@ -16,7 +16,6 @@
 #'
 
 standard_species <- function(df){
-  df <- arch_fauna
   names <- colnames(df)
   species_names <-  df[,grepl("species", names, ignore.case=T) |
                          grepl("Species", names, ignore.case=T)]
@@ -31,7 +30,7 @@ standard_species <- function(df){
   standard <- cbind(df, matched_plot_params)
   data.frame(standard[, 1:ncol(standard)], row.names=1:nrow(standard))
 }
-
+sp
 #' Add.alpha
 #' 
 #' Converts colours to transparent.
