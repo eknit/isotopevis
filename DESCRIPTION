@@ -1,13 +1,12 @@
 Package: isotopevis
 Type: Package
-Title: What the package does (short line)
+Title: Visualization tools for stable isotope data
 Version: 0.0.0.9000
 Date: 2015-06-25
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
-Imports: plyr
+Authors@R: person("Erika", "Nitsch", email = "enitsch@gmail.com",
+  role = c("aut", "cre"))
+Description: Provides a visual display of isotope mixing model data for stable isotope dietary modelling, allowing the user to compare different multi-source (>3) combinations. 
+License: CC0
 LazyData: true
 Suggests: testthat
 URL: https://github.com/eknit/isotopevis
