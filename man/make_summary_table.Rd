@@ -2,11 +2,25 @@
 % Please edit documentation in R/isotopevis.R
 \name{make_summary_table}
 \alias{make_summary_table}
-\title{Make summary table}
+\title{Make summary table
+Uses ddply to extract the mean and standard deviation of the d13C and d15N data
+for each model group}
 \usage{
 make_summary_table(df)
 }
+\arguments{
+\item{df}{The data.frame that specifies a single column $model_groups, which groups
+the isotopic data into different endpoint categories}
+}
+\value{
+A n x 8 summary data.frame where n is the number of different endpoint groups.
+}
 \description{
 Make summary table
+Uses ddply to extract the mean and standard deviation of the d13C and d15N data
+for each model group
+}
+\examples{
+model_names <- make_summary_table(test_df)
 }
 

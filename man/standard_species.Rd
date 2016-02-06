@@ -16,10 +16,9 @@ A data.frame with the same number of rows as the original data frame,
    information for each entry
 }
 \description{
-Takes a dataframe and identifies the species column (either "species", "Species",
-"taxon" or "Taxon") and matches the listed species against a dictionary list of
-standardized English names in the "species_lookup_table" The standardized names
-are then looked up in a standardized plotting table (plot_lookup_table) to
+Takes a dataframe and identifies the first species column (either "species" or "taxon) and matches the listed species against a dictionary list of
+standardized English names in the species lookup table ("species.rda") The standardized names
+are then looked up in a standardized plotting table ("plot_params.rda") to
 find the plotting parameters.
 }
 \examples{

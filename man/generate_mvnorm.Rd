@@ -6,6 +6,9 @@
 \usage{
 generate_mvnorm(batch, N)
 }
+\arguments{
+\item{batch,}{the subset of}
+}
 \description{
 Generates a bivariate normal distribution of the dietary group supplied
 (batch) using the mvnorm function

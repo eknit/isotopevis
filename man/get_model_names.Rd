@@ -6,7 +6,18 @@
 \usage{
 get_model_names(df)
 }
+\arguments{
+\item{df}{The data.frame that specifies a single column $model_groups, which groups
+the isotopic data into different endpoint categories}
+}
+\value{
+A n x 2 data.frame where n is the number of different groups. The first column is the
+type of endpoint (animal, plant) the second is the name of the endpoint group.
+}
 \description{
 Extracts the category names from the list of those provided in the data frame df
+}
+\examples{
+model_names <- get_model_names(test_df)
 }
 
