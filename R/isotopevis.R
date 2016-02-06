@@ -35,12 +35,7 @@ standard_species <- function(df){
   data.frame(standard[, 1:ncol(standard)], row.names=1:nrow(standard))
 }
 
-#How to update lookup
-#new_vals <- as.character(species$Value)
-#new_vals[species2$Lookup=="Lathyrus ochrus"] <- "Lathyrus ochrus"
-#species$Value <- new_vals
 
-#save(species, file="~/github/isotopevis/data/species.rda")
 #' Add.alpha
 #' 
 #' Converts colours to transparent.
