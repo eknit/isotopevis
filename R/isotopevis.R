@@ -1,9 +1,8 @@
 #' Standard Species
 #' 
-#' Takes a dataframe and identifies the species column (either "species", "Species", 
-#' "taxon" or "Taxon") and matches the listed species against a dictionary list of 
-#' standardized English names in the "species_lookup_table" The standardized names 
-#' are then looked up in a standardized plotting table (plot_lookup_table) to 
+#' Takes a dataframe and identifies the first species column (either "species" or "taxon) and matches the listed species against a dictionary list of 
+#' standardized English names in the species lookup table ("species.rda") The standardized names 
+#' are then looked up in a standardized plotting table ("plot_params.rda") to 
 #' find the plotting parameters. 
 #' 
 #' @param df The data.frame in which the isotope ratios 
@@ -36,6 +35,12 @@ standard_species <- function(df){
   data.frame(standard[, 1:ncol(standard)], row.names=1:nrow(standard))
 }
 
+#How to update lookup
+#new_vals <- as.character(species$Value)
+#new_vals[species2$Lookup=="Lathyrus ochrus"] <- "Lathyrus ochrus"
+#species$Value <- new_vals
+
+#save(species, file="~/github/isotopevis/data/species.rda")
 #' Add.alpha
 #' 
 #' Converts colours to transparent.
@@ -114,6 +119,12 @@ plotmyxy <- function(df, bigD = FALSE, dair=NULL, ...){
 #' Get model names
 #' 
 #' Extracts the category names from the list of those provided in the data frame df
+#' @param df The data.frame that specifies a single column $model_groups, which groups
+#' the isotopic data into different endpoint categories
+#' @return A n x 2 data.frame where n is the number of different groups. The first column is the 
+#' type of endpoint (animal, plant) the second is the name of the endpoint group.
+#' @examples 
+#' model_names <- get_model_names(test_df)
 
 get_model_names <- function(df){
   types <- as.character(df$Type[!duplicated(df$model_groups)])
@@ -124,6 +135,13 @@ get_model_names <- function(df){
 }
 
 #'  Make summary table
+#' Uses ddply to extract the mean and standard deviation of the d13C and d15N data
+#' for each model group
+#' @param df The data.frame that specifies a single column $model_groups, which groups
+#' the isotopic data into different endpoint categories
+#' @return A n x 8 summary data.frame where n is the number of different endpoint groups.
+#' @examples 
+#' model_names <- make_summary_table(test_df)
 
 make_summary_table <- function(df){
   s <- ddply(df, .(model_groups), summarize, md13C=mean(normd13C), 
@@ -140,6 +158,7 @@ make_summary_table <- function(df){
 #' 
 #' Generates a bivariate normal distribution of the dietary group supplied 
 #' (batch) using the mvnorm function
+#' @param batch, the subset of 
 #' 
 generate_mvnorm <- function(batch, N){
   Cvar <- var(batch$normd13C)
